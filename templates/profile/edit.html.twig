@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Quack{% endblock %}
+
+{% block body %}
+    <h1>Edit Profile</h1>
+
+    {{ include('profile/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('show_profile') }}">back to list</a>
+
+{% endblock %}
