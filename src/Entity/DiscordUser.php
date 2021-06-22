@@ -2,17 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\DucksRepository;
+use App\Repository\DiscordUserRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * @ORM\Entity(repositoryClass=DucksRepository::class)
- * @UniqueEntity(fields={"username"}, message="There is already an account with this username")
+ * @ORM\Entity(repositoryClass=DiscordUserRepository::class)
  */
-class Ducks implements UserInterface, PasswordAuthenticatedUserInterface
+class DiscordUser implements UserInterface
 {
     /**
      * @ORM\Id
@@ -22,9 +20,9 @@ class Ducks implements UserInterface, PasswordAuthenticatedUserInterface
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=180, unique=true, nullable=true)
+     * @ORM\Column(type="string", length=180, unique=true)
      */
-    private string $username;
+    private $username;
 
     /**
      * @ORM\Column(type="json")
@@ -32,30 +30,9 @@ class Ducks implements UserInterface, PasswordAuthenticatedUserInterface
     private $roles = [];
 
     /**
-     * @var string The hashed password
-     * @ORM\Column(type="string", nullable=true)
-     */
-    private ?string $password;
-
-    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private ?string $email;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private ?string $firstname;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private ?string $lastname;
-
-    /**
-     * @ORM\Column(type="bigint", nullable=true)
-     */
-    private ?int $discord_id;
+    private $email;
 
     public function getId(): ?int
     {
@@ -107,23 +84,17 @@ class Ducks implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
+     * This method can be removed in Symfony 6.0 - is not needed for apps that do not check user passwords.
+     *
      * @see PasswordAuthenticatedUserInterface
      */
     public function getPassword(): ?string
     {
-        return $this->password;
-    }
-
-    public function setPassword(string $password): self
-    {
-        $this->password = $password;
-
-        return $this;
+        return null;
     }
 
     /**
-     * Returning a salt is only needed, if you are not using a modern
-     * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
+     * This method can be removed in Symfony 6.0 - is not needed for apps that do not check user passwords.
      *
      * @see UserInterface
      */
@@ -146,45 +117,9 @@ class Ducks implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->email;
     }
 
-    public function setEmail(string $email): self
+    public function setEmail(?string $email): self
     {
         $this->email = $email;
-
-        return $this;
-    }
-
-    public function getFirstname(): ?string
-    {
-        return $this->firstname;
-    }
-
-    public function setFirstname(string $firstname): self
-    {
-        $this->firstname = $firstname;
-
-        return $this;
-    }
-
-    public function getLastname(): ?string
-    {
-        return $this->lastname;
-    }
-
-    public function setLastname(string $lastname): self
-    {
-        $this->lastname = $lastname;
-
-        return $this;
-    }
-
-    public function getDiscordId(): ?int
-    {
-        return $this->discord_id;
-    }
-
-    public function setDiscordId(?int $discord_id): self
-    {
-        $this->discord_id = $discord_id;
 
         return $this;
     }
