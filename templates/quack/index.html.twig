@@ -28,8 +28,12 @@
                 <td>{{ quack.content }}</td>
                 <td>{{ quack.createdAt ? quack.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
-                    <a href="{{ path('quack_show', {'id': quack.id}) }}">show</a>
-                    <a href="{{ path('quack_edit', {'id': quack.id}) }}">edit</a>
+                    {% if quack.duck.username is same as (app.user.username) %}
+                        <form method="post" action="{{ path('quack_delete', {'id': quack.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ quack.id) }}">
+                            <button class="btn">Delete</button>
+                        </form>
+                    {% endif %}
                 </td>
                 <td>{{ quack.duck.username }}</td>
                 <td>

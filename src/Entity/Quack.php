@@ -45,9 +45,11 @@ class Quack
      */
     private $tags;
 
-    public function __construct()
+    public function __construct($duck)
     {
         $this->tags = new ArrayCollection();
+        $this->created_at = new \DateTime('now');
+        $this->duck = $duck;
     }
 
     public function getId(): ?int
@@ -129,4 +131,5 @@ class Quack
 
         return $this;
     }
+
 }

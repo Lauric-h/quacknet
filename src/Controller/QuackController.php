@@ -31,16 +31,12 @@ class QuackController extends AbstractController
      */
     public function new(Request $request): Response
     {
-        $this->getUser();
-        $quack = new Quack();
+        $quack = new Quack($this->getUser());
 
         $form = $this->createForm(QuackType::class, $quack);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $quack->setDuck($this->getUser());
-            $quack->setCreatedAt(new \DateTime('now'));
-
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($quack);
             $entityManager->flush();
@@ -89,6 +85,8 @@ class QuackController extends AbstractController
      */
     public function delete(Request $request, Quack $quack): Response
     {
+        $this->denyAccessUnlessGranted('delete', $quack);
+
         if ($this->isCsrfTokenValid('delete'.$quack->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($quack);
