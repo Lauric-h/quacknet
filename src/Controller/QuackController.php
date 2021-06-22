@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Quack;
 use App\Form\QuackType;
 use App\Repository\QuackRepository;
+use Doctrine\ORM\Query\AST\Functions\CurrentTimestampFunction;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,11 +31,16 @@ class QuackController extends AbstractController
      */
     public function new(Request $request): Response
     {
+        $this->getUser();
         $quack = new Quack();
+
         $form = $this->createForm(QuackType::class, $quack);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $quack->setDuck($this->getUser());
+            $quack->setCreatedAt(new \DateTime('now'));
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($quack);
             $entityManager->flush();

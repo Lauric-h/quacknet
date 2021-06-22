@@ -3,7 +3,10 @@
 namespace App\Entity;
 
 use App\Repository\DucksRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use JetBrains\PhpStorm\Pure;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -56,6 +59,16 @@ class Ducks implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="bigint", nullable=true)
      */
     private ?int $discord_id;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Quack::class, mappedBy="duck")
+     */
+    private $quacks;
+
+    public function __construct()
+    {
+        $this->quacks = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -185,6 +198,36 @@ class Ducks implements UserInterface, PasswordAuthenticatedUserInterface
     public function setDiscordId(?int $discord_id): self
     {
         $this->discord_id = $discord_id;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Quack[]
+     */
+    public function getQuacks(): Collection
+    {
+        return $this->quacks;
+    }
+
+    public function addQuack(Quack $quack): self
+    {
+        if (!$this->quacks->contains($quack)) {
+            $this->quacks[] = $quack;
+            $quack->setDuck($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQuack(Quack $quack): self
+    {
+        if ($this->quacks->removeElement($quack)) {
+            // set the owning side to null (unless already changed)
+            if ($quack->getDuck() === $this) {
+                $quack->setDuck(null);
+            }
+        }
 
         return $this;
     }

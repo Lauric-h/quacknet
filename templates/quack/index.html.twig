@@ -3,6 +3,11 @@
 {% block title %}Quack index{% endblock %}
 
 {% block body %}
+    {% if app.user %}
+
+    {% else %}
+        <a href="{{ path('app_login') }}">Se connecter</a>
+    {% endif %}
     <h1>Quack index</h1>
 
     <table class="table">
@@ -12,6 +17,8 @@
                 <th>Content</th>
                 <th>Created_at</th>
                 <th>actions</th>
+                <th>author</th>
+                <th>tags</th>
             </tr>
         </thead>
         <tbody>
@@ -23,6 +30,12 @@
                 <td>
                     <a href="{{ path('quack_show', {'id': quack.id}) }}">show</a>
                     <a href="{{ path('quack_edit', {'id': quack.id}) }}">edit</a>
+                </td>
+                <td>{{ quack.duck.username }}</td>
+                <td>
+                    {% for tag in quack.tags  %}
+                        {{ tag }}
+                    {% endfor %}
                 </td>
             </tr>
         {% else %}
