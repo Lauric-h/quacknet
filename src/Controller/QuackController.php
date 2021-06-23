@@ -100,9 +100,9 @@ class QuackController extends AbstractController
      * @Route("/comment/{id}", name="quack_comment", methods={"GET", "POST"})
      */
     public function newComment(Request $request, Quack $parent): Response {
+
         $quack = new Quack($this->getUser());
         $quack->setParent($parent);
-        $parent->addChild($quack);
 
         $form = $this->createForm(QuackType::class, $quack);
         $form->handleRequest($request);
@@ -110,9 +110,7 @@ class QuackController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($quack);
-            $entityManager->persist($parent);
             $entityManager->flush();
-
             return $this->redirectToRoute('quack_index');
         }
 

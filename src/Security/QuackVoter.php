@@ -6,6 +6,7 @@ namespace App\Security;
 
 use App\Entity\Ducks;
 use App\Entity\Quack;
+use JetBrains\PhpStorm\Pure;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class QuackVoter extends \Symfony\Component\Security\Core\Authorization\Voter\Voter
@@ -48,7 +49,10 @@ class QuackVoter extends \Symfony\Component\Security\Core\Authorization\Voter\Vo
     }
 
     private function canDelete(Quack $quack, Ducks $duck): bool {
-        return $duck === $quack->getDuck();
+        if ($duck === $quack->getDuck() || $duck === $quack->getParent()->getDuck()){
+            return true;
+        }
+        return false;
     }
 
 }

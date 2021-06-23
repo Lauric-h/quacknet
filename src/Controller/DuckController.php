@@ -14,7 +14,7 @@ class DuckController extends AbstractController
      */
     public function index(): Response
     {
-        return $this->render('duck/index.html.twig', [
+        return $this->render('ducks/index.html.twig', [
             'controller_name' => 'DuckController',
         ]);
     }

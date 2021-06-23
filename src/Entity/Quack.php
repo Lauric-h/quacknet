@@ -46,12 +46,12 @@ class Quack
     private $tags;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Quack::class, inversedBy="children")
+     * @ORM\ManyToOne(targetEntity=Quack::class, inversedBy="children" )
      */
     private $parent;
 
     /**
-     * @ORM\OneToMany(targetEntity=Quack::class, mappedBy="parent")
+     * @ORM\OneToMany(targetEntity=Quack::class, mappedBy="parent", cascade={"remove", "persist"})
      */
     private $children;
 
@@ -183,6 +183,10 @@ class Quack
         }
 
         return $this;
+    }
+
+    public function __toString() {
+        return $this->content;
     }
 
 }
