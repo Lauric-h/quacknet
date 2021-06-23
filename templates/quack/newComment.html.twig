@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouveau commentaire{% endblock %}
+
+{% block body %}
+    <h1>Commenter</h1>
+
+    <div>
+        <h2>Coincoin de {{ parent.duck.username }}</h2>
+        <p>{{ parent.content }}</p>
+        <p>le {{ parent.createdAt|date("d/m/Y") }}</p>
+    </div>
+
+    {{ include('quack/_form.html.twig') }}
+
+    <a href="{{ path('quack_index') }}">back to list</a>
+{% endblock %}

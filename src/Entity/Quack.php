@@ -45,11 +45,22 @@ class Quack
      */
     private $tags;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Quack::class, inversedBy="children")
+     */
+    private $parent;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Quack::class, mappedBy="parent")
+     */
+    private $children;
+
     public function __construct($duck)
     {
         $this->tags = new ArrayCollection();
         $this->created_at = new \DateTime('now');
         $this->duck = $duck;
+        $this->children = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -127,6 +138,48 @@ class Quack
     {
         if ($this->tags->removeElement($tag)) {
             $tag->removeQuack($this);
+        }
+
+        return $this;
+    }
+
+    public function getParent(): ?self
+    {
+        return $this->parent;
+    }
+
+    public function setParent(?self $parent): self
+    {
+        $this->parent = $parent;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|self[]
+     */
+    public function getChildren(): Collection
+    {
+        return $this->children;
+    }
+
+    public function addChild(self $child): self
+    {
+        if (!$this->children->contains($child)) {
+            $this->children[] = $child;
+            $child->setParent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeChild(self $child): self
+    {
+        if ($this->children->removeElement($child)) {
+            // set the owning side to null (unless already changed)
+            if ($child->getParent() === $this) {
+                $child->setParent(null);
+            }
         }
 
         return $this;

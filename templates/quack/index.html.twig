@@ -19,6 +19,7 @@
                 <th>actions</th>
                 <th>author</th>
                 <th>tags</th>
+                <th>Commentaires</th>
             </tr>
         </thead>
         <tbody>
@@ -42,6 +43,9 @@
                     {% for tag in quack.tags  %}
                         {{ tag }}
                     {% endfor %}
+                </td>
+                <td>
+                    <a href="{{ path('quack_comment', {id: quack.id}) }}">Ajouter un commentaire</a>
                 </td>
             </tr>
         {% else %}
