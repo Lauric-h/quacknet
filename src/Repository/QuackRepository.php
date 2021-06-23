@@ -36,15 +36,14 @@ class QuackRepository extends ServiceEntityRepository
     }
     */
 
-    /*
-    public function findOneBySomeField($value): ?Quack
+    public function findNotDeleted(): ?array
     {
-        return $this->createQueryBuilder('q')
-            ->andWhere('q.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT q FROM App\Entity\Quack q WHERE q.deleted = 0'
+        );
+        return $query->getResult();
     }
-    */
+
 }

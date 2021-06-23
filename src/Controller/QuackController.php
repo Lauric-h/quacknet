@@ -22,7 +22,7 @@ class QuackController extends AbstractController
     public function index(QuackRepository $quackRepository): Response
     {
         return $this->render('quack/index.html.twig', [
-            'quacks' => $quackRepository->findAll(),
+            'quacks' => $quackRepository->findNotDeleted(),
         ]);
     }
 

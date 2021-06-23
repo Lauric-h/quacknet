@@ -55,6 +55,11 @@ class Quack
      */
     private $children;
 
+    /**
+     * @ORM\Column(type="integer", options={"default": 0})
+     */
+    private $deleted;
+
     public function __construct($duck)
     {
         $this->tags = new ArrayCollection();
@@ -187,6 +192,18 @@ class Quack
 
     public function __toString() {
         return $this->content;
+    }
+
+    public function getDeleted(): ?int
+    {
+        return $this->deleted;
+    }
+
+    public function setDeleted(int $deleted): self
+    {
+        $this->deleted = $deleted;
+
+        return $this;
     }
 
 }

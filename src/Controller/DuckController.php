@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Ducks;
+use App\Repository\DucksRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -12,10 +13,10 @@ class DuckController extends AbstractController
     /**
      * @Route("/duck", name="duck")
      */
-    public function index(): Response
+    public function index(DucksRepository $repository): Response
     {
         return $this->render('ducks/index.html.twig', [
-            'controller_name' => 'DuckController',
+            'ducks' => $repository->findAll(),
         ]);
     }
 
