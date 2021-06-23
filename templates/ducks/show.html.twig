@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profil de {{ ducks.username }}{% endblock %}
+
+{% block body %}
+    <h1>Profil de {{ ducks.username }}</h1>
+
+    <p>Pseudo : {{ ducks.username }}</p>
+    {% if ducks.firstname %}
+        <p>Prénom : {{ ducks.firstname }}</p>
+    {% endif %}
+    {% if ducks.lastname %}
+        <p>Nom : {{ ducks.lastname }}</p>
+    {% endif %}
+    <p>Email : {{ ducks.email }}</p>
+
+    <a href="{{ path('index') }}">Retour aux quacks</a>
+
+{% endblock %}
