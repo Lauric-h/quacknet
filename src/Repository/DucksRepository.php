@@ -36,6 +36,14 @@ class DucksRepository extends ServiceEntityRepository implements PasswordUpgrade
         $this->_em->flush();
     }
 
+    public function findNotDeleted(): ?array {
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery(
+            'SELECT d FROM App\Entity\Ducks d WHERE d.deleted = false'
+        );
+        return $query->getResult();
+    }
+
     // /**
     //  * @return Ducks[] Returns an array of Ducks objects
     //  */

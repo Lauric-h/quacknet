@@ -38,10 +38,6 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Quacks', 'fas fa-list', Quack::class);
     }
 
-//    public function configureActions(Actions $actions): Actions
-//    {
-//        return $actions
-//            ->disable(Action::EDIT)
-//            ;
-//    }
+
+
 }

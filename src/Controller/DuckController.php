@@ -15,8 +15,9 @@ class DuckController extends AbstractController
      */
     public function index(DucksRepository $repository): Response
     {
+        $ducks = $repository->findNotDeleted();
         return $this->render('ducks/index.html.twig', [
-            'ducks' => $repository->findAll(),
+            'ducks' => $ducks,
         ]);
     }
 
@@ -25,6 +26,9 @@ class DuckController extends AbstractController
      */
     public function show(Ducks $ducks): Response
     {
+        if ($ducks->getDeleted()) {
+            return $this->render('ducks/deleted.html.twig');
+        }
         return $this->render('ducks/show.html.twig', [
             'ducks' => $ducks
         ]);

@@ -55,6 +55,10 @@ class QuackController extends AbstractController
      */
     public function show(Quack $quack): Response
     {
+        if ($quack->getDeleted() === 1) {
+            return $this->render('quack/deleted.html.twig', []);
+        }
+
         return $this->render('quack/show.html.twig', [
             'quack' => $quack,
         ]);

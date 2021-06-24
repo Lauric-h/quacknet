@@ -12,17 +12,29 @@
                 <td>{{ quack.id }}</td>
             </tr>
             <tr>
-                <th>Content</th>
+                <th>Contenu</th>
                 <td>{{ quack.content }}</td>
             </tr>
             <tr>
-                <th>Created_at</th>
-                <td>{{ quack.createdAt ? quack.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <th>Publié le</th>
+                <td>{{ quack.createdAt ? quack.createdAt|date('d-m-Y H:i:s') : '' }}</td>
             </tr>
         </tbody>
     </table>
 
-    <a href="{{ path('index') }}">back to list</a>
+    <div>
+        <h3>Commentaires</h3>
+            {% for comment in quack.children %}
+                <p>Auteur : {{ comment.duck }}</p>
+                <p>{{ comment.content }}</p>
+                <p>Le {{ comment.createdAt|date('d-m-Y H:i:s') }}</p>
+                <p>Tags :</p>
+                    {% for tag in comment.tags %}
+                        <p>{{ tag }}</p>
+                    {% endfor %}
+            {% endfor %}
+    </div>
+    <a href="{{ path('index') }}">Retour aux quacks</a>
 
 {#    <a href="{{ path('quack_edit', {'id': quack.id}) }}">edit</a>#}
 

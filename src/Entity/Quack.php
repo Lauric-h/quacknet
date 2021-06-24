@@ -66,6 +66,7 @@ class Quack
         $this->created_at = new \DateTime('now');
         $this->duck = $duck;
         $this->children = new ArrayCollection();
+        $this->deleted = 0;
     }
 
     public function getId(): ?int

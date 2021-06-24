@@ -32,10 +32,10 @@ class Ducks implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="json")
      */
-    private $roles = [];
+    private array $roles = [];
 
     /**
-     * @var string The hashed password
+     * @var ?string The hashed password
      * @ORM\Column(type="string", nullable=true)
      */
     private ?string $password;
@@ -65,9 +65,15 @@ class Ducks implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $quacks;
 
+    /**
+     * @ORM\Column(type="boolean", options={"default": false})
+     */
+    private bool $deleted;
+
     public function __construct()
     {
         $this->quacks = new ArrayCollection();
+        $this->deleted = false;
     }
 
     public function getId(): ?int
@@ -234,5 +240,17 @@ class Ducks implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __toString() {
         return $this->username;
+    }
+
+    public function getDeleted(): ?bool
+    {
+        return $this->deleted;
+    }
+
+    public function setDeleted(bool $deleted): self
+    {
+        $this->deleted = $deleted;
+
+        return $this;
     }
 }
