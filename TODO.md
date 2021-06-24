@@ -9,3 +9,5 @@
 - [] Faire recherche sur les tags
 - [] Ajout photo profil 
 - [] Ajout photo quack 
+- [] Modifier le delete quack d'un user en soft delete
+- [] API : vérifier les data de register
