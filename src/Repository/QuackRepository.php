@@ -46,4 +46,24 @@ class QuackRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
+    public function findByWord(string $key) {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT q, d 
+             FROM App\Entity\Quack q 
+             INNER JOIN q.duck d
+             WHERE d.username LIKE :key'
+        )->setParameter('key', '%'.$key.'%');
+        return $query->getResult();
+
+//        $builder = $this->createQueryBuilder('q')
+//            ->where('q.duck LIKE :key')
+//            ->setParameter('key', '%'.$key.'%');
+//
+//        $query = $builder->getQuery();
+//        dd($query->execute());
+//        return $query->execute();
+    }
+
 }

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Quack;
 use App\Form\QuackType;
+use App\Form\SearchType;
 use App\Repository\QuackRepository;
 use Doctrine\ORM\Query\AST\Functions\CurrentTimestampFunction;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,12 +18,20 @@ use Symfony\Component\Routing\Annotation\Route;
 class QuackController extends AbstractController
 {
     /**
-     * @Route("/", name="quack_index", methods={"GET"})
+     * @Route("/", name="quack_index", methods={"GET", "POST"})
      */
-    public function index(QuackRepository $quackRepository): Response
+    public function index(Request $request, QuackRepository $quackRepository): Response
     {
+        if ($request->isMethod('POST')) {
+            $searchKey = $request->request->get('search')['search'];
+            $results = $quackRepository->findByWord($searchKey);
+            $quacks = $results;
+         } else {
+            $quacks = $quackRepository->findNotDeleted();
+        }
+
         return $this->render('quack/index.html.twig', [
-            'quacks' => $quackRepository->findNotDeleted(),
+            'quacks' => $quacks,
         ]);
     }
 
@@ -122,6 +131,14 @@ class QuackController extends AbstractController
             'quack' => $quack,
             'parent' => $parent,
             'form' => $form->createView(),
+        ]);
+    }
+
+    public function search(): Response
+    {
+        $form = $this->createForm(SearchType::class);
+        return $this->render('quack/search.html.twig', [
+            'form' => $form->createView()
         ]);
     }
 }
