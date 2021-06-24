@@ -14,6 +14,10 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class QuackRepository extends ServiceEntityRepository
 {
+    /**
+     * QuackRepository constructor.
+     * @param ManagerRegistry $registry
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Quack::class);
@@ -36,34 +40,29 @@ class QuackRepository extends ServiceEntityRepository
     }
     */
 
+
+    /** Fetch all quacks not deleted
+     * @return array|null
+     */
     public function findNotDeleted(): ?array
     {
-        $entityManager = $this->getEntityManager();
+        $query = $this->createQueryBuilder('q')
+            ->where('q.deleted = 0')
+            ->getQuery();
 
-        $query = $entityManager->createQuery(
-            'SELECT q FROM App\Entity\Quack q WHERE q.deleted = 0'
-        );
-        return $query->getResult();
+        return $query->execute();
     }
 
-    public function findByWord(string $key) {
-        $entityManager = $this->getEntityManager();
+    public function findByAuthor(string $author)
+    {
+        $query = $this->createQueryBuilder('q')
+            ->addSelect('d')
+            ->innerJoin('q.duck', 'd')
+            ->where('d.username LIKE :author')
+            ->setParameter('author', '%'.$author.'%')
+            ->getQuery();
 
-        $query = $entityManager->createQuery(
-            'SELECT q, d 
-             FROM App\Entity\Quack q 
-             INNER JOIN q.duck d
-             WHERE d.username LIKE :key'
-        )->setParameter('key', '%'.$key.'%');
-        return $query->getResult();
-
-//        $builder = $this->createQueryBuilder('q')
-//            ->where('q.duck LIKE :key')
-//            ->setParameter('key', '%'.$key.'%');
-//
-//        $query = $builder->getQuery();
-//        dd($query->execute());
-//        return $query->execute();
+        return $query->execute();
     }
 
 }

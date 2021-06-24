@@ -49,7 +49,8 @@ class DiscordAuthenticator extends SocialAuthenticator
 
        // 1) have they logged in with Discord before?
        $existingUser = $this->em->getRepository(Ducks::class)
-           ->findOneBy(['discord_id' => $discordUser->getId()]);
+           ->findOneBy(['discord_id' =>
+               $discordUser->getId()]);
        if ($existingUser) {
            return $existingUser;
        }

@@ -24,7 +24,7 @@ class QuackController extends AbstractController
     {
         if ($request->isMethod('POST')) {
             $searchKey = $request->request->get('search')['search'];
-            $results = $quackRepository->findByWord($searchKey);
+            $results = $quackRepository->findByAuthor($searchKey);
             $quacks = $results;
          } else {
             $quacks = $quackRepository->findNotDeleted();
@@ -134,6 +134,10 @@ class QuackController extends AbstractController
         ]);
     }
 
+    /**
+     * Search method to create the search bar
+     * @return Response render form
+     */
     public function search(): Response
     {
         $form = $this->createForm(SearchType::class);

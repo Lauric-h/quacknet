@@ -34,11 +34,6 @@ class DucksCrudController extends AbstractCrudController
         ];
     }
 
-//    public function deleteEntity(EntityManagerInterface $entityManager, $entityInstance): void
-//    {
-//        dd($entityInstance);
-//    }
-//
     public function configureActions(Actions $actions): Actions
     {
         return $actions

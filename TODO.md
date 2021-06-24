@@ -6,3 +6,6 @@
 - [X] Cacher les ducks soft deleted /show/:id
 - [X] Ajouter view Duck banni  
 - [X] Voir les commentaires associés quand on va sur /quack/show/:id 
+- [] Faire recherche sur les tags
+- [] Ajout photo profil 
+- [] Ajout photo quack 

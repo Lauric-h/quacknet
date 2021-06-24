@@ -14,10 +14,12 @@
         {% endblock %}
     </head>
     <body>
+    <header>
         {% if app.user %}
             <a href="{{ path('app_logout') }}">Se déconnecter</a>
         {% endif %}
         {{ render(controller('App\\Controller\\QuackController::search')) }}
+    </header>
         {% block body %}{% endblock %}
     </body>
 </html>

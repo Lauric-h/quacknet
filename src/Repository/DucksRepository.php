@@ -37,39 +37,12 @@ class DucksRepository extends ServiceEntityRepository implements PasswordUpgrade
     }
 
     public function findNotDeleted(): ?array {
-        $entityManager = $this->getEntityManager();
-        $query = $entityManager->createQuery(
-            'SELECT d FROM App\Entity\Ducks d WHERE d.deleted = false'
-        );
-        return $query->getResult();
+        $query = $this->createQueryBuilder('d')
+            ->where('d.deleted = false')
+            ->getQuery();
+
+        return $query->execute();
     }
 
-    // /**
-    //  * @return Ducks[] Returns an array of Ducks objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('d')
-            ->andWhere('d.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('d.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Ducks
-    {
-        return $this->createQueryBuilder('d')
-            ->andWhere('d.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }
