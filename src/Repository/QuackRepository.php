@@ -65,4 +65,14 @@ class QuackRepository extends ServiceEntityRepository
         return $query->execute();
     }
 
+    public function findByTag($tag) {
+        $query = $this->createQueryBuilder('q')
+            ->join('q.tags', 't')
+            ->where('t.name LIKE :tag')
+            ->setParameter('tag', '%'.$tag.'%')
+            ->getQuery();
+
+        return $query->execute();
+    }
+
 }

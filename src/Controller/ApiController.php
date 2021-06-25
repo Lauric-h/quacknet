@@ -27,9 +27,6 @@ class ApiController extends AbstractController
      */
     public function index(Request $request, QuackRepository $quackRepository): Response
     {
-        if (!$this->isLoggedIn($request)) {
-            return new JsonResponse('Please log in', Response::HTTP_FORBIDDEN);
-        }
         $quacks = $quackRepository->findNotDeleted();
         $data = [];
         foreach ($quacks as $quack) {

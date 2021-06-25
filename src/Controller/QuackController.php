@@ -7,10 +7,13 @@ use App\Form\QuackType;
 use App\Form\SearchType;
 use App\Repository\QuackRepository;
 use Doctrine\ORM\Query\AST\Functions\CurrentTimestampFunction;
+use http\Env;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\env;
 
 /**
  * @Route("/quack")
@@ -102,7 +105,7 @@ class QuackController extends AbstractController
 
         if ($this->isCsrfTokenValid('delete'.$quack->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($quack);
+            $quack->setDeleted(1);
             $entityManager->flush();
         }
 
@@ -144,6 +147,41 @@ class QuackController extends AbstractController
         return $this->render('quack/search.html.twig', [
             'form' => $form->createView()
         ]);
+    }
+
+    /**
+     * @Route("/like/{id}", name="quack_like")
+     */
+    public function likeQuack(Request $request, Quack $quack, ParameterBagInterface $parameterBag) {
+        // protect direct access
+        if ($request->headers->get('referer') ===
+            $parameterBag->get('app_server') &&
+            $request->getUser())
+        {
+            $quack->setPositive($quack->getPositive() + 1);
+            $this->getDoctrine()
+                ->getManager()
+                ->flush();
+        }
+
+        return $this->redirectToRoute('index');
+    }
+
+    /**
+     * @Route("/dislike/{id}", name="quack_dislike")
+     */
+    public function dislikeQuack(Request $request, Quack $quack, ParameterBagInterface $parameterBag) {
+        // protect direct access
+        if ($request->headers->get('referer') ===
+            $parameterBag->get('app_server') &&
+            $request->getUser())
+        {
+            $quack->setNegative($quack->getNegative() + 1);
+            $this->getDoctrine()
+                ->getManager()
+                ->flush();
+        }
+        return $this->redirectToRoute('index');
     }
 
 

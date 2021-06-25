@@ -6,11 +6,13 @@
 - [X] Cacher les ducks soft deleted /show/:id
 - [X] Ajouter view Duck banni  
 - [X] Voir les commentaires associés quand on va sur /quack/show/:id 
-- [] Faire recherche sur les tags
-- [] Ajout photo profil 
-- [] Ajout photo quack 
-- [] Modifier le delete quack d'un user en soft delete
+- [X] Modifier le delete quack d'un user en soft delete
 - [X] API : vérifier les data de register
 - [X] Garder user connecté api/whoami
 - [X] Update api
-- [] /api accessible sans login
+- [X] /api accessible sans login
+- [X] protéger route like/dislike // env var
+- [] Faire recherche sur les tags
+- [] Ajout photo profil 
+- [] Ajout photo quack 
+- [] cacher barre de recherche sur /login et /register => réorganiser templates twig

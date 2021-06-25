@@ -21,6 +21,8 @@
                 <th>author</th>
                 <th>tags</th>
                 <th>Commentaires</th>
+                <th>Likes</th>
+                <th>Dislikes</th>
             </tr>
         </thead>
         <tbody>
@@ -47,6 +49,14 @@
                 </td>
                 <td>
                     <a href="{{ path('quack_comment', {id: quack.id}) }}">Ajouter un commentaire</a>
+                </td>
+                <td>
+                    <p>likes {{ quack.positive }}</p>
+                    <a href="{{ path('quack_like', {'id': quack.id }) }}">like</a>
+                </td>
+                <td>
+                    <p>dislikes {{ quack.negative }}</p>
+                    <a href="{{ path('quack_dislike', {'id': quack.id }) }}">dislike</a>
                 </td>
             </tr>
         {% else %}

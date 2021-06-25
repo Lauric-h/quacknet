@@ -61,6 +61,16 @@ class Quack
      */
     private $deleted;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $positive;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $negative;
+
     public function __construct($duck)
     {
         $this->tags = new ArrayCollection();
@@ -68,6 +78,8 @@ class Quack
         $this->duck = $duck;
         $this->children = new ArrayCollection();
         $this->deleted = 0;
+        $this->positive = 0;
+        $this->negative = 0;
     }
 
     public function getId(): ?int
@@ -204,6 +216,30 @@ class Quack
     public function setDeleted(int $deleted): self
     {
         $this->deleted = $deleted;
+
+        return $this;
+    }
+
+    public function getPositive(): ?int
+    {
+        return $this->positive;
+    }
+
+    public function setPositive(int $positive): self
+    {
+        $this->positive = $positive;
+
+        return $this;
+    }
+
+    public function getNegative(): ?int
+    {
+        return $this->negative;
+    }
+
+    public function setNegative(int $negative): self
+    {
+        $this->negative = $negative;
 
         return $this;
     }
