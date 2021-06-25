@@ -10,4 +10,7 @@
 - [] Ajout photo profil 
 - [] Ajout photo quack 
 - [] Modifier le delete quack d'un user en soft delete
-- [] API : vérifier les data de register
+- [X] API : vérifier les data de register
+- [X] Garder user connecté api/whoami
+- [X] Update api
+- [] /api accessible sans login

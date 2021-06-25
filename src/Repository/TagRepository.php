@@ -19,4 +19,16 @@ class TagRepository extends ServiceEntityRepository
         parent::__construct($registry, Tag::class);
     }
 
+    public function findByName($name) {
+        $query = $this->createQueryBuilder('t')
+            ->select('n')
+            ->from('quack_tag', 'qt', )
+            ->innerJoin('qt.id', 'i');
+
+
+
+
+
+    }
+
 }

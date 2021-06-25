@@ -25,7 +25,7 @@ class Ducks implements UserInterface, PasswordAuthenticatedUserInterface
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=180, unique=true, nullable=true)
+     * @ORM\Column(type="string", length=180, unique=true)
      */
     private string $username;
 
@@ -41,7 +41,7 @@ class Ducks implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255)
      */
     private ?string $email;
 
