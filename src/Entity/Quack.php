@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\QuackRepository;
+use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -10,6 +11,7 @@ use JetBrains\PhpStorm\ArrayShape;
 
 /**
  * @ORM\Entity(repositoryClass=QuackRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class Quack
 {
@@ -70,6 +72,11 @@ class Quack
      * @ORM\Column(type="integer")
      */
     private $negative;
+
+    /**
+     * @ORM\Column(type="datetime_immutable", nullable=true)
+     */
+    private $updated_at;
 
     public function __construct($duck)
     {
@@ -240,6 +247,22 @@ class Quack
     public function setNegative(int $negative): self
     {
         $this->negative = $negative;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?DateTimeImmutable
+    {
+        return $this->updated_at;
+    }
+
+    /**
+     * @ORM\PostUpdate()
+     * @return $this
+     */
+    public function setUpdatedAt(): self
+    {
+        $this->updated_at = new \DateTimeImmutable('now');
 
         return $this;
     }

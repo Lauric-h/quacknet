@@ -89,12 +89,16 @@ class QuackController extends AbstractController
      */
     public function edit(Request $request, Quack $quack): Response
     {
+        if($request->getUser() !== $quack->getDuck()) {
+            return $this->render('/Error/unauthorized.html.twig');
+        }
+
         $form = $this->createForm(QuackType::class, $quack);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $quack->setUpdatedAt();
             $this->getDoctrine()->getManager()->flush();
-
             return $this->redirectToRoute('quack_index');
         }
 
