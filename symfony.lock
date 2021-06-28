@@ -112,6 +112,9 @@
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.5"
     },
+    "knplabs/knp-markdown-bundle": {
+        "version": "1.9.0"
+    },
     "laminas/laminas-code": {
         "version": "4.4.0"
     },
@@ -120,6 +123,9 @@
     },
     "league/oauth2-google": {
         "version": "4.0.0"
+    },
+    "michelf/php-markdown": {
+        "version": "1.9.0"
     },
     "monolog/monolog": {
         "version": "2.2.0"

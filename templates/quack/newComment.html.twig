@@ -7,7 +7,7 @@
 
     <div>
         <h2>Coincoin de {{ parent.duck.username }}</h2>
-        <p>{{ parent.content }}</p>
+        <p>{{ parent.content|markdown }}</p>
         <p>le {{ parent.createdAt|date("d/m/Y") }}</p>
     </div>
 

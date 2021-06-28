@@ -8,6 +8,7 @@ use App\Form\SearchType;
 use App\Repository\QuackRepository;
 use Doctrine\ORM\Query\AST\Functions\CurrentTimestampFunction;
 use http\Env;
+use Knp\Bundle\MarkdownBundle\MarkdownParserInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,7 +24,7 @@ class QuackController extends AbstractController
     /**
      * @Route("/", name="quack_index", methods={"GET", "POST"})
      */
-    public function index(Request $request, QuackRepository $quackRepository): Response
+    public function index(Request $request, QuackRepository $quackRepository, MarkdownParserInterface $markdownParser): Response
     {
         if ($request->isMethod('POST')) {
             $searchKey = $request->request->get('search')['search'];
@@ -31,6 +32,10 @@ class QuackController extends AbstractController
             $quacks = $results;
          } else {
             $quacks = $quackRepository->findNotDeleted();
+        }
+
+        foreach ($quacks as $quack) {
+            $quack->setContent($markdownParser->transformMarkdown($quack->getContent()));
         }
 
         return $this->render('quack/index.html.twig', [
@@ -65,14 +70,17 @@ class QuackController extends AbstractController
     /**
      * @Route("/{id}", name="quack_show", methods={"GET"})
      */
-    public function show(Quack $quack): Response
+    public function show(Quack $quack, MarkdownParserInterface $markdownParser): Response
     {
         if ($quack->getDeleted() === 1) {
             return $this->render('quack/deleted.html.twig', []);
         }
 
+        $parsedQuack = $markdownParser->transformMarkdown($quack->getContent());
+
         return $this->render('quack/show.html.twig', [
             'quack' => $quack,
+            'parsedQuack' => $parsedQuack,
         ]);
     }
 
