@@ -29,7 +29,7 @@
         {% for quack in quacks %}
             <tr>
                 <td>{{ quack.id }}</td>
-                <td>{{ quack.content|markdown }}</td>
+                <td>{{ quack.content|auto_link|markdown }}</td>
                 <td>{{ quack.createdAt ? quack.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
                     {% if app.user %}
