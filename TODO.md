@@ -24,3 +24,4 @@
     - [X] BeforeRemove > remove ES
     - [X] Après update > envoi à ES
     - [] Barre de recherche ES
+    - [] Dockerfile / docker compose
