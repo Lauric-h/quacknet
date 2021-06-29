@@ -97,7 +97,9 @@ class QuackController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $quack->setUpdatedAt();
-            $this->getDoctrine()->getManager()->flush();
+            $this->getDoctrine()
+                ->getManager()
+                ->flush();
             return $this->redirectToRoute('quack_index');
         }
 
@@ -114,7 +116,9 @@ class QuackController extends AbstractController
     {
         $this->denyAccessUnlessGranted('delete', $quack);
 
-        if ($this->isCsrfTokenValid('delete'.$quack->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid(
+            'delete'.$quack->getId(),
+            $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $quack->setDeleted(1);
             $entityManager->flush();

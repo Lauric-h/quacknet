@@ -12,15 +12,15 @@
 - [X] Update api
 - [X] /api accessible sans login
 - [X] protéger route like/dislike // env var
+- [X] pour deny access sur edit fonctionne pas
 - [] Faire recherche sur les tags api (sérialisation)
 - [] Ajout photo profil 
 - [] Ajout photo quack 
 - [] cacher barre de recherche sur /login et /register => réorganiser templates twig
-- [X] pour deny access sur edit fonctionne pas
 - [] prévisualisation liens
 - [] notification / mercure
 - [] ES/Docker
-    - OnPersist > envoi à ES
-    - BeforeRemove > remove ES
-    - Après update > envoi à ES
-    - Barre de recherche ES
+    - [X] postPersist > envoi à ES
+    - [] BeforeRemove > remove ES
+    - [] Après update > envoi à ES
+    - [] Barre de recherche ES
