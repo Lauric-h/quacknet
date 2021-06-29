@@ -21,6 +21,6 @@
 - [] notification / mercure
 - [] ES/Docker
     - [X] postPersist > envoi à ES
-    - [] BeforeRemove > remove ES
-    - [] Après update > envoi à ES
+    - [X] BeforeRemove > remove ES
+    - [X] Après update > envoi à ES
     - [] Barre de recherche ES

@@ -69,22 +69,34 @@ class HttpSender
         return $response->getStatusCode();
     }
 
-//    public function deleteData($id) {
-//
-//    }
-
+    /**
+     * @throws TransportExceptionInterface
+     */
     public function updateData($data): int
     {
         $formattedData = $this->formatData($data);
 
+        $newData = [
+            "doc" =>  $formattedData
+        ];
+//        dd(json_encode($newData));
         $response = $this->client->request(
             'POST',
             'http://localhost:9200/quack/_update/'.$data->getID(),
             [
-                'json' => $formattedData
+                'json' => $newData
             ]
         );
-        dd($response);
+        return $response->getStatusCode();
+    }
+
+    public function deleteData($id): int
+    {
+        $response = $this->client->request(
+            'DELETE',
+            'http://localhost:9200/quack/_doc/'.$id,
+        );
+
         return $response->getStatusCode();
     }
 
