@@ -23,6 +23,7 @@
                 <th>Commentaires</th>
                 <th>Likes</th>
                 <th>Dislikes</th>
+                <th>Edit</th>
             </tr>
         </thead>
         <tbody>
@@ -58,12 +59,18 @@
                     <p>dislikes {{ quack.negative }}</p>
                     <a href="{{ path('quack_dislike', {'id': quack.id }) }}">dislike</a>
                 </td>
+                <td>
+                    {% if quack.duck is same as (app.user)  %}
+                        <a href="{{ path('quack_edit', {id: quack.id}) }}">Edit</a>
+                    {% endif %}
+                </td>
             </tr>
         {% else %}
             <tr>
                 <td colspan="4">no records found</td>
             </tr>
         {% endfor %}
+
         </tbody>
     </table>
 

@@ -9,6 +9,7 @@ use App\Repository\QuackRepository;
 use Doctrine\ORM\Query\AST\Functions\CurrentTimestampFunction;
 use http\Env;
 use Knp\Bundle\MarkdownBundle\MarkdownParserInterface;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -89,9 +90,7 @@ class QuackController extends AbstractController
      */
     public function edit(Request $request, Quack $quack): Response
     {
-        if($request->getUser() !== $quack->getDuck()) {
-            return $this->render('/Error/unauthorized.html.twig');
-        }
+        $this->denyAccessUnlessGranted('edit', $quack);
 
         $form = $this->createForm(QuackType::class, $quack);
         $form->handleRequest($request);
@@ -120,7 +119,6 @@ class QuackController extends AbstractController
             $quack->setDeleted(1);
             $entityManager->flush();
         }
-
         return $this->redirectToRoute('quack_index');
     }
 
@@ -128,7 +126,6 @@ class QuackController extends AbstractController
      * @Route("/comment/{id}", name="quack_comment", methods={"GET", "POST"})
      */
     public function newComment(Request $request, Quack $parent): Response {
-
         $quack = new Quack($this->getUser());
         $quack->setParent($parent);
 
@@ -168,14 +165,13 @@ class QuackController extends AbstractController
         // protect direct access
         if ($request->headers->get('referer') ===
             $parameterBag->get('app_server') &&
-            $request->getUser())
+            $this->getUser())
         {
             $quack->setPositive($quack->getPositive() + 1);
             $this->getDoctrine()
                 ->getManager()
                 ->flush();
         }
-
         return $this->redirectToRoute('index');
     }
 
@@ -186,7 +182,7 @@ class QuackController extends AbstractController
         // protect direct access
         if ($request->headers->get('referer') ===
             $parameterBag->get('app_server') &&
-            $request->getUser())
+            $this->getUser())
         {
             $quack->setNegative($quack->getNegative() + 1);
             $this->getDoctrine()
@@ -195,6 +191,4 @@ class QuackController extends AbstractController
         }
         return $this->redirectToRoute('index');
     }
-
-
 }
