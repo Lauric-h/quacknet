@@ -27,7 +27,6 @@ class DoctrineSubscriber implements EventSubscriber
     public function postPersist(LifecycleEventArgs $args): void {
         $entity = $args->getObject();
         if (!$entity instanceof Quack) {
-            dd("non");
             return;
         }
         $sender = new HttpSender();
